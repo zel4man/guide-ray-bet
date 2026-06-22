@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>信息索引 · 九游资料库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f3f5f7;
+            color: #1e2a3a;
+            line-height: 1.6;
+        }
+
+        /* 深色头图 */
+        .hero {
+            background: linear-gradient(145deg, #0b1622 0%, #192b3f 60%, #1f364d 100%);
+            color: #e6edf5;
+            padding: 4rem 1.5rem 3.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            left: -10%;
+            width: 120%;
+            height: 80px;
+            background: #f3f5f7;
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero .sub {
+            font-size: 1.05rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 1rem;
+            font-weight: 300;
+        }
+
+        .hero .meta-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #b6cdff;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(2px);
+        }
+
+        /* 浅色正文区卡片网格 */
+        .container {
+            max-width: 1200px;
+            margin: -0.5rem auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-text {
+            background: #ffffff;
+            padding: 2rem 2.2rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: #2a3b4e;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .intro-text a,
+        .card a {
+            color: #1d6f9c;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border 0.2s, color 0.2s;
+        }
+
+        .intro-text a:hover,
+        .card a:hover {
+            border-bottom: 1px solid #1d6f9c;
+            color: #0a4b6e;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2.2rem 0 2.8rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 1.8rem 1.6rem 1.9rem;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+            border: 1px solid #ebeff2;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.04);
+            border-color: #dde4ea;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #142433;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card h3 span {
+            background: #e7eef6;
+            color: #1e4e6e;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            letter-spacing: 0.2px;
+        }
+
+        .card p,
+        .card li {
+            font-size: 0.95rem;
+            color: #2f4259;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card ul li {
+            padding: 0.25rem 0 0.25rem 1.2rem;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #1d6f9c;
+            font-weight: 300;
+        }
+
+        .faq-block {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 1.8rem 2.2rem 2.2rem;
+            margin: 1rem 0 1.8rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            border: 1px solid #eaeef2;
+        }
+
+        .faq-block h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #142433;
+            border-left: 5px solid #1d6f9c;
+            padding-left: 0.9rem;
+        }
+
+        .faq-item {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item strong {
+            display: block;
+            font-weight: 600;
+            color: #1b3348;
+            margin-bottom: 0.2rem;
+        }
+
+        .faq-item p {
+            color: #3b4f63;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .natural-link-sentence {
+            background: #ffffff;
+            padding: 1.5rem 2.2rem;
+            border-radius: 24px;
+            border: 1px solid #e4eaef;
+            margin: 2rem 0;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #1d2b3b;
+        }
+
+        .natural-link-sentence a {
+            color: #1d6f9c;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px solid #b2ccdd;
+        }
+
+        .natural-link-sentence a:hover {
+            border-bottom: 1px solid #1d6f9c;
+        }
+
+        .aside-note {
+            background: #f9fbfd;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
+            display: inline-block;
+            font-size: 0.8rem;
+            color: #516e86;
+            border: 1px solid #e2eaf1;
+            margin: 1.5rem 0 0.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem 3rem;
+            color: #6f859a;
+            font-size: 0.85rem;
+            border-top: 1px solid #dee6ed;
+            background: #f3f5f7;
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 3rem 1rem 2.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .card {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .intro-text,
+            .faq-block,
+            .natural-link-sentence {
+                padding-left: 1.2rem;
+                padding-right: 1.2rem;
+            }
+
+            .grid {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 深色头图 -->
+    <header class="hero">
+        <h1>九游 · 信息整理</h1>
+        <p class="sub">从资料归档到索引梳理，围绕平台结构与内容生态的笔记式导航</p>
+        <span class="meta-tag">版本归档 · 2025</span>
+    </header>
+
+    <div class="container">
+
+        <!-- 开篇：索引视角 -->
+        <section class="intro-text">
+            <p>以信息整理为切入点，围绕<strong>九游</strong>的游戏分类、用户内容流与社区板块，做一份偏向资料卡片的轻量索引页。这里不重复官网结构，而是将常见用途、内容特征与适合人群加以归拢，方便快速对照。若需直接浏览完整平台，可移步 <a href="https://cn2-9game.com">九游官网</a> 进一步查阅。</p>
+        </section>
+
+        <!-- 信息卡片网格：用途 + 人群 + 特征 -->
+        <div class="grid">
+
+            <div class="card">
+                <h3>📋 用途卡片 <span>场景</span></h3>
+                <ul>
+                    <li>浏览热门手游资讯与更新日志</li>
+                    <li>查阅游戏礼包、攻略及版本前瞻</li>
+                    <li>参与社区话题、玩家讨论与同好分享</li>
+                    <li>跟踪新游预约与开测时间线</li>
+                </ul>
+                <p style="margin-top:0.7rem;font-size:0.9rem;color:#3c5a74;">这些场景覆盖了大部分日常信息获取需求，资料集中度较高。</p>
+            </div>
+
+            <div class="card">
+                <h3>👥 适合人群 <span>读者</span></h3>
+                <ul>
+                    <li>习惯手机端查阅游戏资讯的轻中度玩家</li>
+                    <li>希望集中管理游戏兴趣内容的资料整理者</li>
+                    <li>对游戏社区互动、同人创作感兴趣的爱好者</li>
+                    <li>需要快速核验游戏版本或活动时间的用户</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🧩 内容特征 <span>索引</span></h3>
+                <p>站内信息流以专区为组织单位，涵盖官方公告、玩家测评、媒体合作内容。板块之间通过标签与话题串联，对于资料检索而言，建议优先使用分类筛选项缩小范围。</p>
+                <p style="margin-top:0.8rem;">此外，部分专区设有历史版本归档，便于回溯往期活动与更新记录。</p>
+            </div>
+
+        </div>
+
+        <!-- FAQ 摘要式段落 -->
+        <div class="faq-block">
+            <h4>❓ FAQ 摘要 · 来自资料整理中的常见问题</h4>
+            <div class="faq-item">
+                <strong>Q：如何快速定位某款游戏的专区？</strong>
+                <p>可通过站内搜索或游戏首字母导航直接跳转，多数热门游戏设有独立内容聚合页，信息密度较高。</p>
+            </div>
+            <div class="faq-item">
+                <strong>Q：礼包码、开服表通常在哪个板块更新？</strong>
+                <p>通常在「福利中心」或「开测表」模块中集中发布，部分攻略区也会同步重要信息。建议关注对应游戏专区的置顶帖。</p>
+            </div>
+            <div class="faq-item">
+                <strong>Q：站内资料的可信度与时效性如何？</strong>
+                <p>官方公告与签约媒体内容通常有明确时间戳，玩家社区部分建议交叉核对；整体而言适合作为第一轮信息索引来源。</p>
+            </div>
+        </div>
+
+        <!-- 自然链接段落 (嵌入 a 标签，无多余动词) -->
+        <div class="natural-link-sentence">
+            <p>对于想系统了解平台内容结构的用户，可以直接参考 <a href="https://cn2-9game.com">九游官网</a> 的导航与专区划分；本文档仅作为外部资料整理与用途对照，不替代原站功能。另外，在整理过程中发现部分早期游戏条目仍有活跃讨论，建议结合社区排序功能查看最近回复。</p>
+        </div>
+
+        <!-- 附加提示：资料索引角度 -->
+        <div class="aside-note">
+            📌 本页为信息卡片式索引页 · 基于资料整理与用途分类
+        </div>
+
+        <!-- 简短自然段落，再次衔接但不重复 -->
+        <div style="margin-top: 2rem; padding: 0.2rem 0 1rem; color: #3f5a71; font-size: 0.95rem; border-top: 1px dashed #d8e2eb;">
+            <p style="margin-top: 1rem;">在测试与浏览过程中，多数板块的内容分类逻辑较为统一，适合按「游戏名 → 专区 → 时间排序」的路径做信息回溯。对于习惯资料夹式管理的用户，也可以将平台视为一个可交叉引用的游戏信息池。</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>基于公开信息整理 · 非官方资料索引页</p>
+        <p style="margin-top:0.3rem;opacity:0.7;">内容方向 · 卡片 / 用途 / 知识型</p>
+    </footer>
+
+</body>
+</html>
